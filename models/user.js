@@ -1,0 +1,34 @@
+const mongoose = require('mongoose')
+const userSchema= new mongoose.Schema({
+    vendorId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'vendor',
+        default: null //null for customer 
+    },
+    storeId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'store',
+        default: null //null for customer and admin
+    },
+    email:{
+        type:String,
+        unique: true,
+        required: true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:String,
+        required:true,
+        enum: ['admin', 'manager', 'customer'],
+        default: 'customer'
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    }
+})
+
+module.exports = mongoose.model("user", userSchema) 
