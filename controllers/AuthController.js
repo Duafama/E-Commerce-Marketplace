@@ -25,15 +25,17 @@ async function handleRegisterVendor(req, res){
         const token= await signUser({
             userId: user._id,
             email: user.email,
-            role: user.role
+            role: user.role,
+            vendorId: user.vendorId
         })
         return res.json({token})
 
     }catch(err){
         console.log(err)
         res.status(500).json({error: "Server error"})
-    }
-}
+    } 
+}      
+
 
 async function handleUserLogin(req, res){
     const {email, password} = req.body
@@ -45,10 +47,11 @@ async function handleUserLogin(req, res){
         if(!verifyUser) return res.json({error: "Invalid Email or Password"})
 
         const token= await signUser({
-            userId: user._id,
+            _id: user._id,
             email: user.email,
-            role: user.role
-        })
+            role: user.role,
+            vendorId: user.vendorId
+        }) 
         return res.json({token})
     }
     catch(err){
@@ -87,6 +90,11 @@ async function handleRegisterCustomer(req, res){
         res.status(500).json({error: "Server error"})
     }
 
+}
+
+
+async function handleUpdatePassword(req, res){
+    
 }
 
 module.exports= {handleRegisterVendor, handleUserLogin, handleRegisterCustomer}

@@ -2,18 +2,18 @@ const {getUser} = require('../services/auth')
 
 
 async function authenticateUser(req, res, next){
-    const authHeader= await req.headers['authorization']
+    const authHeader=  await req.headers['authorization']
     req.user=null
     if(!authHeader || !authHeader.startsWith('Bearer')) return next()
     const token= authHeader.split('Bearer ')[1]
-    const user =  await getUser(token)
+    const user =  getUser(token)
     // console.log(user)
     if(!user) return res.json({msg: 'Incorrect token'})
     req.user = user
     next()
 }
 
-async function authorizeAccess(roles= []){
+function authorizeAccess(roles= []){
     return function (req, res, next){
         if (!req.user) return res.json({error:"User not logged in"})
         

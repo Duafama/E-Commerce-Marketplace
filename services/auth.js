@@ -31,4 +31,4 @@ async function verifyPassword(password, hash){
     return bcrypt.compare(password, hash)
 }
 
-module.exports = {hashPassword, verifyPassword, signUser, getUser}
+module.exports = {hashPassword, verifyPassword, signUser, getUser} 

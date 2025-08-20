@@ -17,4 +17,5 @@ const vendorSchema = new mongoose.Schema({
     }
 })
 
+//this is basically a vendor/business profile and it 
 module.exports = mongoose.model("vendor", vendorSchema)

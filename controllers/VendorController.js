@@ -1,6 +1,6 @@
 const Vendor= require('../models/vendor')
 
-async function handleGetAllVendors(req, res){
+async function handleGetAllVendors(req, res){  //only portal admin
     try{
         const vendors= await Vendor.find()
         res.json(vendors)
@@ -23,9 +23,8 @@ async function handleGetVendorById(req, res){
 
 async function handleUpdateVendorbyId(req, res){
     try{
-        const {businessName, ownerName, contactEmail} =req.body
-
-        if(req.user.role=== "admin" && req.user._id !== req.params.id)
+        const {businessName, ownerName, contactEmail} =req.body 
+        if(req.user.role=== "admin" && req.user.vendorId !== req.params.id)
             return res.json({error:"you can only update your own vendor info"})
 
         const updatedVendor= await Vendor.findByIdAndUpdate(req.params.id, {businessName, ownerName, contactEmail}, { new: true, runValidators: true })
@@ -38,8 +37,8 @@ async function handleUpdateVendorbyId(req, res){
     }
 }
 
-
-//long logic for hard delete, will try soft delete late where i.ll add status do users and vendors and will update the status 
+   
+//long logic for hard delete, will try soft delete late where i'll add status do users and vendors and will update the status 
 async function handleDeleteVendorById(req, res){
     try{
         if(req.user.role === "admin" && req.user._id !== req.params.id)

@@ -1,3 +1,5 @@
+//users contain all user's login credentials(not profiles) , vendor-admins, store-managers, customers
+
 const mongoose = require('mongoose')
 const userSchema= new mongoose.Schema({
     vendorId:{
