@@ -26,7 +26,8 @@ async function handleRegisterVendor(req, res){
             userId: user._id,
             email: user.email,
             role: user.role,
-            vendorId: user.vendorId
+            vendorId: user.vendorId,
+            storeId:user.storeId
         })
         return res.json({token})
 
@@ -47,10 +48,11 @@ async function handleUserLogin(req, res){
         if(!verifyUser) return res.json({error: "Invalid Email or Password"})
 
         const token= await signUser({
-            _id: user._id,
+            userId: user._id,
             email: user.email,
             role: user.role,
-            vendorId: user.vendorId
+            vendorId: user.vendorId,
+            storeId:user.storeId
         }) 
         return res.json({token})
     }
@@ -70,6 +72,7 @@ async function handleRegisterCustomer(req, res){
             password: hashedpassword,
         })
 
+        //customer profile with userid
         await Customer.create({
             userId: user._id,
             name,
@@ -81,7 +84,9 @@ async function handleRegisterCustomer(req, res){
         const token = await signUser({
             userId: user._id,
             email: user.email,
-            role: user.role
+            role: user.role,
+            vendorId: user.vendorId, //null
+            storeId:user.storeId   //null
         })
         return res.json({token})
 

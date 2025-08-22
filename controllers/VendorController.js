@@ -1,3 +1,4 @@
+// Vendor Management 
 const Vendor= require('../models/vendor')
 
 async function handleGetAllVendors(req, res){  //only portal admin
@@ -36,7 +37,6 @@ async function handleUpdateVendorbyId(req, res){
         res.status(500).json({error: "failed to update vendor info"})
     }
 }
-
    
 //long logic for hard delete, will try soft delete late where i'll add status do users and vendors and will update the status 
 async function handleDeleteVendorById(req, res){

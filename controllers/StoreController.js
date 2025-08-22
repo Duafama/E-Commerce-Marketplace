@@ -1,3 +1,4 @@
+//Store Management
 const Store= require('../models/store')
 
 async function handleGetAllStoresByVendor(req, res){
@@ -12,12 +13,24 @@ async function handleGetAllStoresByVendor(req, res){
     }
 }
 
+
+//checkStoreAccess middleware added!
+async function handleGetStoreById(req, res){
+    try { 
+        const store = req.store
+        return res.json(store)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json("failed to get  store")
+    }
+}
+
+//admin only
 async function handleCreateNewStore(req, res){
     try{
         const {name, desc} = req.body
-        console.log(req.user.vendorId)
         await Store.create({
-            vendorId: req.user.vendorId,
+            vendorId: req.user.vendorId,// this way admin creates store for his own vendor/business
             name,
             desc
         })
@@ -29,13 +42,21 @@ async function handleCreateNewStore(req, res){
     }
 }
 
+
+//right now only admin can update store
 async function handleUpdateStoreById(req, res){
     try {
+        const storeId = req.params.id
         const {name, desc}= req.body
-        const store= await Store.findById(req.params.id)
+
+        const store= await Store.findById(storeId)
         if(!store) return res.json("store doesnt exist")
-        if(req.user.vendorId!== store.vendorId.toString()) return res.json("You can only update stores under your own vendor/business")
-        const updatedStore = await Store.findByIdAndUpdate(req.params.id, {name, desc}, {new:true, runValidators:true})
+
+        //if store exists but not the store of admin trying to update it then return
+        if(req.user.vendorId!== store.vendorId.toString()) 
+            return res.json("You can only update stores under your own vendor/business")
+        
+        const updatedStore = await Store.findByIdAndUpdate(storeId, {name, desc}, {new:true, runValidators:true})
         return res.json(updatedStore)
     } catch (err) {
         console.log(err)
@@ -43,9 +64,9 @@ async function handleUpdateStoreById(req, res){
     }
 }
 
-//This would mean deleting a stre and all its product/categories/variants
+//soft delete
 async function handleDeleteStoreById(req, res){
 
 }
 
-module.exports={handleGetAllStoresByVendor, handleCreateNewStore, handleUpdateStoreById}
+module.exports={handleGetAllStoresByVendor, handleCreateNewStore, handleUpdateStoreById, handleGetStoreById}
