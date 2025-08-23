@@ -3,7 +3,6 @@ const Store = require('../models/store')
 async function checkStoreAccess(req, res, next){
     try {
         const {storeId} = req.params
-        req.store=null
         const store = await Store.findById(storeId)
         if(!store) return res.json("store doesn't exist")
 
@@ -11,7 +10,7 @@ async function checkStoreAccess(req, res, next){
             return res.status(403).json("Not your store")
 
         //will run for admin
-        if(req.user.vendorId!== store.vendorId.toString()) 
+        if(req.user.role === "admin" && req.user.vendorId!== store.vendorId.toString()) 
             return res.json("Unauthorized Store Access")
 
         req.store = store

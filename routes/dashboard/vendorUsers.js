@@ -1,6 +1,6 @@
 const express= require('express')
 const router= express.Router()
-const {handleRegisterVendorUsers, handleGetAllVendorUsers} = require('../controllers/vendorUsersController')
+const {handleRegisterVendorUsers, handleGetAllVendorUsers} = require('../../controllers/vendorUsersController')
 
 //admin only
 router.route('/')

@@ -38,4 +38,26 @@ async function handleGetAllProductsByStore(req, res){
     }
 }
 
-module.exports= {handleCreateNewProduct, handleGetAllProductsByStore}
+async function handleGetProductById(req, res){
+    try{
+        const product = req.product
+        return res.json(product)
+    }catch(err){
+        console.log(err)
+        return res.status(500).json("failed to fetch product")
+    }
+}
+
+async function handleUpdateProductById(req, res){
+    try{
+        const {productId} = req.params
+        const {name, description, sku, price } = req.body
+        const updatedProduct = await Product.findByIdAndUpdate(productId, {name, description, sku, price}, {new:true, runValidators:true})
+        return res.status(201).json(updatedProduct)
+    }catch(err){
+        console.log(err)
+        return res.status(500).json("Failed to update product")
+    }
+}
+
+module.exports= {handleCreateNewProduct, handleGetAllProductsByStore, handleGetProductById, handleUpdateProductById}

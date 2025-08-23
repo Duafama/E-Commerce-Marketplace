@@ -1,8 +1,8 @@
 const express = require('express')
 const router= express.Router()
-const {createNewCategoryForStore, handleGetAllCategoriesByStore, handleGetCategoryById} = require('../controllers/CategoryController')
-const {authenticateUser, authorizeAccess} = require('../middlewares/auth')
-const {checkStoreAccess} = require('../middlewares/storeAccess')
+const {createNewCategoryForStore, handleGetAllCategoriesByStore, handleGetCategoryById} = require('../../controllers/CategoryController')
+const {authenticateUser, authorizeAccess} = require('../../middlewares/auth')
+const {checkStoreAccess} = require('../../middlewares/storeAccess')
 
 router.route('/categories/:id')
     .get(handleGetCategoryById)
