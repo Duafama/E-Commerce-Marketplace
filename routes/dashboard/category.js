@@ -8,8 +8,8 @@ router.route('/categories/:id')
     .get(handleGetCategoryById)
 
 router.route('/stores/:storeId/categories')
-    .get(handleGetAllCategoriesByStore)
-    .post(authenticateUser, authorizeAccess(['admin', 'store-manager']), checkStoreAccess, createNewCategoryForStore)
+    .get(authorizeAccess(['vendor-admin', 'store-manager']), checkStoreAccess, handleGetAllCategoriesByStore)
+    .post( authorizeAccess(['vendor-admin', 'store-manager']), checkStoreAccess, createNewCategoryForStore)
 
 
 module.exports= router

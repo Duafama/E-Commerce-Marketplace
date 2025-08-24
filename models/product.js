@@ -17,18 +17,22 @@ const productSchema = new mongoose.Schema({
         required:true
     },
     sku:{
-        type:String // for products with no variants
+        type:String,
+        unique:true // for products with no variants
     },
     price:{
         type:Number // for products with no variants
     },
     stock:{
-        type:Number, // for products with no variants
+        type:Number,
+        default: 0 // for products with no variants
     },
     images:[
         {
             type:String,
+            required:true
         },
+
     ],
     isActive:{
         type:Boolean,

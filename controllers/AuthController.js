@@ -20,7 +20,7 @@ async function handleRegisterVendor(req, res){
             email,
             password: hashedpassword,
             role: 'admin'
-        })
+        })      
 
         const token= await signUser({
             userId: user._id,

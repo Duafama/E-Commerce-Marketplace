@@ -48,13 +48,6 @@ async function handleUpdateStoreById(req, res){
     try {
         const storeId = req.params.id
         const {name, desc}= req.body
-
-        const store= await Store.findById(storeId)
-        if(!store) return res.json("store doesnt exist")
-
-        //if store exists but not the store of admin trying to update it then return
-        if(req.user.vendorId!== store.vendorId.toString()) 
-            return res.json("You can only update stores under your own vendor/business")
         
         const updatedStore = await Store.findByIdAndUpdate(storeId, {name, desc}, {new:true, runValidators:true})
         return res.json(updatedStore)

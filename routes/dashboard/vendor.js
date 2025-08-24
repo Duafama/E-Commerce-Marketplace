@@ -7,6 +7,6 @@ const {authorizeAccess} = require('../../middlewares/auth')
 router.get('/vendors/',  authorizeAccess(['portal-admin']), handleGetAllVendors)
 
 router.route('/vendors/:id').get(authorizeAccess(['portal-admin']), handleGetVendorById)
-.patch(authorizeAccess(['portal-admin', 'admin']), handleUpdateVendorbyId) 
+.patch(authorizeAccess(['portal-admin', 'vendor-admin']), handleUpdateVendorbyId) 
 
 module.exports= router

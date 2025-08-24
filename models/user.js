@@ -12,8 +12,8 @@ const userSchema= new mongoose.Schema({
         ref: 'store',
         default: null //null for customer and admin
     },
-    email:{
-        type:String,
+    email:{   
+        type:String, 
         unique: true,
         required: true
     },
@@ -24,7 +24,7 @@ const userSchema= new mongoose.Schema({
     role:{
         type:String,
         required:true,
-        enum: ['admin', 'store-manager', 'customer'],
+        enum: ['vendor-admin', 'store-manager','inventory-manager', 'customer'],
         default: 'customer'
     },
     createdAt:{

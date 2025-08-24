@@ -1,4 +1,5 @@
 // this Controller is to manage store-managers, staff etc under a vendor, only admin can create store-managers
+//----- INCOMPLETE -----
 const User= require('../models/user')
 const Store= require('../models/store')
 const { hashPassword,signUser}= require('../services/auth')

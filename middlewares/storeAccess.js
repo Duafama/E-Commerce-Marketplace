@@ -7,11 +7,9 @@ async function checkStoreAccess(req, res, next){
         if(!store) return res.json("store doesn't exist")
 
         if(req.user.role === "store-manager" && storeId !== req.user.storeId)//storeId stored in jwt token
-            return res.status(403).json("Not your store")
-
-        //will run for admin
-        if(req.user.role === "admin" && req.user.vendorId!== store.vendorId.toString()) 
-            return res.json("Unauthorized Store Access")
+            return res.status(403).json("Forbidden Access- Not your store")
+        else if(req.user.role === "vendor-admin" && req.user.vendorId!== store.vendorId.toString()) 
+            return res.json("Forbidden Access")  
 
         req.store = store
         next()

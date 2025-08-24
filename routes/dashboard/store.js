@@ -4,13 +4,13 @@ const {authorizeAccess} = require('../../middlewares/auth')
 const {checkStoreAccess} = require('../../middlewares/storeAccess')
 const {handleGetAllStoresByVendor, handleCreateNewStore, handleUpdateStoreById, handleGetStoreById}= require('../../controllers/StoreController')
 
-router.route('/stores/', authorizeAccess(['admin']))
+router.route('/stores/', authorizeAccess(['vendor-admin']))
 .get( handleGetAllStoresByVendor)
 .post(handleCreateNewStore) 
 
 
 router.route('/stores/:storeId', )
-.get(checkStoreAccess, handleGetStoreById)
-.patch(authorizeAccess(['admin']), checkStoreAccess, handleUpdateStoreById)
+.get(authorizeAccess(['vendor-admin, store-manager']),checkStoreAccess, handleGetStoreById)
+.patch(authorizeAccess(['vendor-admin']), checkStoreAccess, handleUpdateStoreById)
 
 module.exports= router

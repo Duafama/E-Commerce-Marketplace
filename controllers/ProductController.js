@@ -1,11 +1,12 @@
 const Product= require('../models/product')
 const Store= require('../models/store')
+const { findById } = require('../models/variant')
 
 async function handleCreateNewProduct(req, res){
     try {
         const {storeId} = req.params
-        const {categoryId, name, description, price, stock, sku} = req.body
-
+        const {categoryId, name, description, price, sku} = req.body
+        console.log(req.files)
         const imgPaths = req.files.map(file => file.path) //array containing paths of all files
 
         await Product.create({
@@ -14,7 +15,6 @@ async function handleCreateNewProduct(req, res){
             name,
             description,
             price,
-            stock,
             sku,
             images: imgPaths
         })
@@ -40,7 +40,8 @@ async function handleGetAllProductsByStore(req, res){
 
 async function handleGetProductById(req, res){
     try{
-        const product = req.product
+        const {productId} = req.params
+        const product = await Product.findById(productId)
         return res.json(product)
     }catch(err){
         console.log(err)

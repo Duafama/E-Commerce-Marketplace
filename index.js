@@ -13,6 +13,7 @@ const storeRouter= require('./routes/dashboard/store')
 const vendorUsersRouter= require('./routes/dashboard/vendorUsers')
 const categoryRouter= require('./routes/dashboard/category')
 const productRouter= require('./routes/dashboard/product')
+const variantRouter= require('./routes/dashboard/variant')
 
 //connection
 connectdb(process.env.MONGO_URI) 
@@ -20,12 +21,12 @@ connectdb(process.env.MONGO_URI)
 //global middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-// app.use("/uploads", express.static("uploads"));
+
 
 //routes
 app.use('/api/dashboard/auth', authRouter)
-app.use('/api/dashboard/', authenticateUser, [vendorRouter, storeRouter, productRouter, categoryRouter])
-app.use('/api/vendors/users', vendorUsersRouter)
+app.use('/api/dashboard', authenticateUser, [vendorRouter, storeRouter, productRouter, categoryRouter, variantRouter])
+// app.use('/api/vendors/users', vendorUsersRouter)
 
 
 

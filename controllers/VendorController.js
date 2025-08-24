@@ -25,7 +25,7 @@ async function handleGetVendorById(req, res){
 async function handleUpdateVendorbyId(req, res){
     try{
         const {businessName, ownerName, contactEmail} =req.body 
-        if(req.user.role=== "admin" && req.user.vendorId !== req.params.id)
+        if(req.user.role=== "vendor-admin" && req.user.vendorId !== req.params.id)
             return res.json({error:"you can only update your own vendor info"})
 
         const updatedVendor= await Vendor.findByIdAndUpdate(req.params.id, {businessName, ownerName, contactEmail}, { new: true, runValidators: true })
@@ -38,10 +38,10 @@ async function handleUpdateVendorbyId(req, res){
     }
 }
    
-//long logic for hard delete, will try soft delete late where i'll add status do users and vendors and will update the status 
+//long logic for hard delete, will try soft delete later where i'll add status do users and vendors and will update the status 
 async function handleDeleteVendorById(req, res){
     try{
-        if(req.user.role === "admin" && req.user._id !== req.params.id)
+        if(req.user.role === "vendor-admin" && req.user._id !== req.params.id)
             return res.json({error:"you can only delete your own vendor info"})
         const deletedVendor= await Vendor.findByIdAndDelete(req.params.id)
         if(!deletedVendor) return res.json("vendor not found")
