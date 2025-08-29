@@ -1,15 +1,16 @@
 const express = require('express')
 const router= express.Router()
-const {createNewCategoryForStore, handleGetAllCategoriesByStore, handleGetCategoryById} = require('../../controllers/CategoryController')
+const {createNewCategoryForStore, handleGetAllCategoriesByStore, handleGetCategoryById} = require('../../controllers/dashboard/CategoryController')
 const {authenticateUser, authorizeAccess} = require('../../middlewares/auth')
 const {checkStoreAccess} = require('../../middlewares/storeAccess')
+const {checkCategoryAccess}= require('../../middlewares/categoryAccess')
 
 router.route('/categories/:id')
-    .get(handleGetCategoryById)
+    .get(checkCategoryAccess, handleGetCategoryById)
 
 router.route('/stores/:storeId/categories')
-    .get(authorizeAccess(['vendor-admin', 'store-manager']), checkStoreAccess, handleGetAllCategoriesByStore)
-    .post( authorizeAccess(['vendor-admin', 'store-manager']), checkStoreAccess, createNewCategoryForStore)
+    .get(checkStoreAccess, handleGetAllCategoriesByStore)
+    .post(checkStoreAccess, createNewCategoryForStore)
 
 
 module.exports= router

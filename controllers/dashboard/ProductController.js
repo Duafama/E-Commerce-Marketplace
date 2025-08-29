@@ -1,19 +1,18 @@
-const Product= require('../models/product')
-const Store= require('../models/store')
-const { findById } = require('../models/variant')
+const Product= require('../../models/product')
 
 async function handleCreateNewProduct(req, res){
     try {
         const {storeId} = req.params
-        const {categoryId, name, description, price, sku} = req.body
+        const {categoryId, name, description, hasVariants, price, sku} = req.body
         console.log(req.files)
-        const imgPaths = req.files.map(file => file.path) //array containing paths of all files
+        const imgPaths = req.files.map(file => file.path) //array contains paths of all files
 
         await Product.create({
             storeId: storeId,
             categoryId,
             name,
             description,
+            hasVariants,
             price,
             sku,
             images: imgPaths
@@ -52,8 +51,8 @@ async function handleGetProductById(req, res){
 async function handleUpdateProductById(req, res){
     try{
         const {productId} = req.params
-        const {name, description, sku, price } = req.body
-        const updatedProduct = await Product.findByIdAndUpdate(productId, {name, description, sku, price}, {new:true, runValidators:true})
+        const {name, description, sku, price, hasVariants} = req.body
+        const updatedProduct = await Product.findByIdAndUpdate(productId, {name, description, sku, price, hasVariants}, {new:true, runValidators:true})
         return res.status(201).json(updatedProduct)
     }catch(err){
         console.log(err)

@@ -1,4 +1,4 @@
-const Variant = require('../models/variant')
+const Variant = require('../../models/variant')
 
 
 async function handleGetVariantsOfProduct(req, res){
@@ -19,7 +19,6 @@ async function handleCreateVariantOfProduct(req, res){
         const {productId} = req.params
         const {attributes, sku, price}= req.body
         const att = JSON.parse(attributes)
-        console.log(req.files)
         const imgPath= req.files.map(file => file.path) 
 
         await Variant.create({
@@ -27,7 +26,7 @@ async function handleCreateVariantOfProduct(req, res){
             images:imgPath,
             attributes: att,
             sku,
-            price
+            price: price 
         })
 
         return res.status(201).json("Variant Created Successfully")
@@ -52,7 +51,7 @@ async function handleUpdateVariantById(req, res){
     try {
         const {variantId} = req.params
         const {attributes, sku, price} = req.body
-        const updatedVariant = await Variant.findByIdAndUpdate(variantId, {attributes, sku, price}, {new:true, runValidtors:true})
+        const updatedVariant = await Variant.findByIdAndUpdate(variantId, {attributes, sku, price}, {new:true, runValidators:true})
         return res.json(updatedVariant)
     } catch (err) {
         console.log(err)

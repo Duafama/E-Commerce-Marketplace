@@ -1,6 +1,5 @@
 //Category Management
-const Category = require('../models/category')
-const Store= require('../models/store')
+const Category = require('../../models/category')
 
 async function createNewCategoryForStore(req, res){
     try{

@@ -2,7 +2,7 @@ const express= require('express')
 const router= express.Router()
 const {authorizeAccess} = require('../../middlewares/auth')
 const {checkStoreAccess} = require('../../middlewares/storeAccess')
-const {handleGetAllStoresByVendor, handleCreateNewStore, handleUpdateStoreById, handleGetStoreById}= require('../../controllers/StoreController')
+const {handleGetAllStoresByVendor, handleCreateNewStore, handleUpdateStoreById, handleGetStoreById}= require('../../controllers/dashboard/StoreController')
 
 router.route('/stores/', authorizeAccess(['vendor-admin']))
 .get( handleGetAllStoresByVendor)

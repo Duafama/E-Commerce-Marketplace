@@ -1,5 +1,5 @@
 // Vendor Management 
-const Vendor= require('../models/vendor')
+const Vendor= require('../../models/vendor')
 
 async function handleGetAllVendors(req, res){  //only portal admin
     try{

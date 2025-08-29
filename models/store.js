@@ -11,6 +11,10 @@ const storeSchema= new mongoose.Schema({
     desc:{
         type:String
     },
+    isActive:{
+        type:Boolean,
+        default: true
+    },
     createdAt:{
         type:Date,
         default:Date.now

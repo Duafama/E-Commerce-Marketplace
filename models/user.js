@@ -27,6 +27,10 @@ const userSchema= new mongoose.Schema({
         enum: ['vendor-admin', 'store-manager','inventory-manager', 'customer'],
         default: 'customer'
     },
+    isActive:{
+        type:Boolean,
+        default:true
+    },
     createdAt:{
         type:Date,
         default:Date.now

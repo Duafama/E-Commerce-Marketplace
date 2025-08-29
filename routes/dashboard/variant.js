@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {handleCreateVariantOfProduct, handleGetVariantsOfProduct, handleGetVariantById, handleUpdateVariantById} = require('../../controllers/VariantController')
+const {handleCreateVariantOfProduct, handleGetVariantsOfProduct, handleGetVariantById, handleUpdateVariantById} = require('../../controllers/dashboard/VariantController')
 const upload = require('../../middlewares/multer')
 const {checkProductAccess} = require('../../middlewares/productAccess')
 const { checkVariantAccess } = require('../../middlewares/variantAccess')

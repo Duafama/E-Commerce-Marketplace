@@ -6,8 +6,6 @@ async function checkProductAccess(req, res, next){
         const product = await Product.findById(productId).populate('storeId')
         if (!product) return res.status(404).json("Product doesn't exist")
         
-        // console.log(req.user.role)
-        // console.log(req.user.vendorId)
         if( (req.user.role=== 'store-manager' || req.user.role === 'inventory-manager') && req.user.storeId !== product.storeId.toString())
             return res.status(403).json("Forbidden Access- Product does not belong to this store")
 

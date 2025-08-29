@@ -1,5 +1,6 @@
 //Store Management
-const Store= require('../models/store')
+const Store= require('../../models/store')
+const {generateApiKey} = require('../../services/apiKey')
 
 async function handleGetAllStoresByVendor(req, res){
     try{
@@ -29,12 +30,15 @@ async function handleGetStoreById(req, res){
 async function handleCreateNewStore(req, res){
     try{
         const {name, desc} = req.body
-        await Store.create({
+        const store= await Store.create({
             vendorId: req.user.vendorId,// this way admin creates store for his own vendor/business
             name,
             desc
         })
-        return res.status(201).json({msg: "success"}); 
+
+        const apiKey = await generateApiKey(store._id, store.vendorId)
+
+        return res.status(201).json({msg: "success", apiKey}); 
     }
     catch(err){
         console.log(err)

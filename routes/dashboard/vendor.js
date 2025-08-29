@@ -1,6 +1,6 @@
 const express = require('express')
 const router= express.Router()
-const {handleGetAllVendors, handleUpdateVendorbyId, handleGetVendorById} = require('../../controllers/VendorController')
+const {handleGetAllVendors, handleUpdateVendorbyId, handleGetVendorById} = require('../../controllers/dashboard/VendorController')
 const {authorizeAccess} = require('../../middlewares/auth')
 
 //i have not yet creating a portal admin hehe i don't need to yet i just wanted to lock this route

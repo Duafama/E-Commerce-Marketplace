@@ -1,7 +1,7 @@
-const Vendor= require('../models/vendor')
-const User= require('../models/user')
-const Customer= require('../models/customer')
-const {hashPassword, verifyPassword, signUser}=require('../services/auth')
+const Vendor= require('../../models/vendor')
+const User= require('../../models/user')
+const Customer= require('../../models/customer')
+const {hashPassword, verifyPassword, signUser}=require('../../services/auth')
 
 
 async function handleRegisterVendor(req, res){
@@ -43,6 +43,8 @@ async function handleUserLogin(req, res){
     try{
         const user = await User.findOne({email})
         if (!user) return res.json({error: "User does not exist"})
+        if (!user.isActive) return res.status(403).json({ msg: "Account is disabled. Please contact support." });
+
         //verifying with the hashed password stored using bcrypt 
         const verifyUser = await verifyPassword(password, user.password)
         if(!verifyUser) return res.json({error: "Invalid Email or Password"})
@@ -70,6 +72,7 @@ async function handleRegisterCustomer(req, res){
         const user= await User.create({
             email,
             password: hashedpassword,
+            // role: 'customer'
         })
 
         //customer profile with userid

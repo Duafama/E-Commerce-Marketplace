@@ -21,9 +21,17 @@ const variantSchema = new mongoose.Schema({
         type:Number,
         default: 0
     },
+    sold:{
+        type:Number,
+        default:0
+    },
     images:[{
         type:String
-    },]
+    },],
+    isActive:{
+        type:Boolean,
+        default:true
+    }  
 })
 
 module.exports= mongoose.model('variant', variantSchema)
