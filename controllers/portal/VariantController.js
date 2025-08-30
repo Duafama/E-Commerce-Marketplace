@@ -26,7 +26,7 @@ async function handleCreateVariantOfProduct(req, res){
             images:imgPath,
             attributes: att,
             sku,
-            price: price 
+            price: price || req.product.price
         })
 
         return res.status(201).json("Variant Created Successfully")

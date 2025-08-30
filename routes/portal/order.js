@@ -1,6 +1,6 @@
 const express = require('express')
 const router= express.Router()
-const {handleGetOrdersById, handleGetOrdersPerStore, handleUpdateOrderById} = require('../../controllers/dashboard/OrderController')
+const {handleGetOrdersById, handleGetOrdersPerStore, handleUpdateOrderById} = require('../../controllers/portal/OrderController')
 const {checkOrderAccess} = require('../../middlewares/orderAccess')
 const {checkStoreAccess} = require('../../middlewares/storeAccess')
 

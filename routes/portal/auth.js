@@ -1,7 +1,7 @@
 const express = require('express')
 const router= express.Router()
 // const {dashboardAuth, authenticateUser} = require('../../middlewares/auth')
-const {handleRegisterVendor, handleUserLogin, handleRegisterCustomer} = require('../../controllers/dashboard/AuthController')
+const {handleRegisterVendor, handleUserLogin, handleRegisterCustomer} = require('../../controllers/portal/AuthController')
 
 router.post('/vendor-register', handleRegisterVendor)
 

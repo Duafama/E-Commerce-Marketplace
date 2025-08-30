@@ -18,7 +18,7 @@ async function handleGetAllProductsByStorePublic(req, res){
         }
 
         const page= req.query.page || 1
-        const limit= req.query.limit || 2
+        const limit= req.query.limit || 20
         const skip= (page-1)*limit
 
         query.skip(skip).limit(limit)

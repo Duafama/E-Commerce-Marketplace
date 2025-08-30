@@ -1,6 +1,6 @@
 const express= require('express')
 const router= express.Router()
-const {handleUpdateProductStock, handleUpdateVariantStock} = require('../../controllers/dashboard/InventoryController')
+const {handleUpdateProductStock, handleUpdateVariantStock} = require('../../controllers/portal/InventoryController')
 const {checkProductAccess} = require('../../middlewares/productAccess')
 const {checkVariantAccess} = require('../../middlewares/variantAccess')
 

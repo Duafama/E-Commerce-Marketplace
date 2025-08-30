@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {handleCreateNewProduct, handleGetAllProductsByStore, handleGetProductById, handleUpdateProductById} = require('../../controllers/dashboard/ProductController')
+const {handleCreateNewProduct, handleGetAllProductsByStore, handleGetProductById, handleUpdateProductById} = require('../../controllers/portal/ProductController')
 const upload = require('../../middlewares/multer')
 const { authorizeAccess } = require('../../middlewares/auth')
 const { checkStoreAccess } = require('../../middlewares/storeAccess')

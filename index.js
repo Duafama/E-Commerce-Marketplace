@@ -9,17 +9,18 @@ const {connectdb}= require('./config/connection')
 const {authenticateUser, authorizeAccess} =require('./middlewares/auth')
 const {checkApiKey} = require('./middlewares/apiKey')
 
-const authRouter= require('./routes/dashboard/auth')
-const vendorRouter= require('./routes/dashboard/vendor')
-const storeRouter= require('./routes/dashboard/store')
-const vendorUsersRouter= require('./routes/dashboard/vendorUsers')
-const categoryRouter= require('./routes/dashboard/category')
-const productRouter= require('./routes/dashboard/product')
-const variantRouter= require('./routes/dashboard/variant')
-const stockRouter= require('./routes/dashboard/stock')
-const orderRouter= require('./routes/dashboard/order')
+//portal Api's routes
+const authRouter= require('./routes/portal/auth')
+const vendorRouter= require('./routes/portal/vendor')
+const storeRouter= require('./routes/portal/store')
+const vendorUsersRouter= require('./routes/portal/vendorUsers')
+const categoryRouter= require('./routes/portal/category')
+const productRouter= require('./routes/portal/product')
+const variantRouter= require('./routes/portal/variant')
+const stockRouter= require('./routes/portal/stock')
+const orderRouter= require('./routes/portal/order')
 
-
+//storefront Api's routes
 const orderRouterPublic= require('./routes/public/order')
 const productRouterPublic= require('./routes/public/product')
 //connection
@@ -30,14 +31,14 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 
-//routes
-app.use('/api/dashboard/auth', authRouter)
-app.use('/api/dashboard', authenticateUser, [vendorRouter, storeRouter, productRouter,  variantRouter])
-app.use('/api/dashboard', authenticateUser, authorizeAccess(['vendor-admin']), vendorUsersRouter)
-app.use('/api/dashboard', authenticateUser, authorizeAccess(['vendor-admin', 'inventory-manager']), stockRouter)
-app.use('/api/dashboard', authenticateUser, authorizeAccess(['vendor-admin', 'store-manager']), categoryRouter, orderRouter)
+//portal Api's 
+app.use('/api/portal/auth', authRouter)
+app.use('/api/portal', authenticateUser, [vendorRouter, storeRouter, productRouter,  variantRouter])
+app.use('/api/portal', authenticateUser, authorizeAccess(['vendor-admin']), vendorUsersRouter)
+app.use('/api/portal', authenticateUser, authorizeAccess(['vendor-admin', 'inventory-manager']), stockRouter)
+app.use('/api/portal', authenticateUser, authorizeAccess(['vendor-admin', 'store-manager']), categoryRouter, orderRouter)
 
-//storefront routes
+//storefront Api's
 app.use('/api', authRouter)
 app.use('/api',checkApiKey, authenticateUser, authorizeAccess(['customer']) ,orderRouterPublic)
 app.use('/api', checkApiKey, productRouterPublic)
