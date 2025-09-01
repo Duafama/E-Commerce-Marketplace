@@ -8,15 +8,18 @@ async function handleGetAllProductsByStorePublic(req, res){
         const {categoryId, sort} = req.query
         const queryObj= {storeId: storeId, isActive:true}
 
+        //filtering
         if(categoryId){
             queryObj.categoryId= categoryId
         }
         
         const query= Product.find(queryObj)
+        //sorting
         if(sort){
             query.sort(sort)
         }
 
+        //pagination
         const page= req.query.page || 1
         const limit= req.query.limit || 20
         const skip= (page-1)*limit

@@ -53,30 +53,6 @@ async function handleGetAllVendorUsers(req, res){
 }
 
 
-//admin only
-// async function handleUpdateVendorUserById(req, res){
-//     try {
-//         const {storeId, role} = req.body
-//         const store= await Store.findById(storeId)
-//         if(!store) return res.status(404).json("No such store exists")
-        
-//         if(req.user.vendorId !== store.vendorId.toString()) 
-//         return res.status(403).json("You can only assign users to your stores")
-
-//         const vendorUser= await User.findById(req.params.id)
-//         if(!vendorUser) return res.status(404).json("This user does not exist")
-
-//         if(req.user.vendorId !== vendorUser.vendorId.toString()) 
-//             return res.status(403).json("You can update users under your own vendors only")
-        
-//         const updatedVendorUser = await User.findByIdAndUpdate(req.params.id, {storeId, role}, {new: true, runValidators:true})
-//         return res.json(updatedVendorUser)
-        
-//     } catch (err) {
-        
-//     }
-// }
-
 
 //soft delete
 async function handledeleteVendorUser(req, res){
@@ -84,6 +60,8 @@ async function handledeleteVendorUser(req, res){
         const {userId} = req.params
         const vendorUser= await User.findById(userId)
         if(!vendorUser) return res.status(404).json("user does not exist")
+        if(vendorUser.role!== "store-manager" && vendorUser.role !== "inventory-manager")
+            return res.sendStatus(403)
         if(req.user.vendorId!== vendorUser.vendorId.toString())
             return res.status(403).json("Forbidden Access- Not you Staff/User")
         await User.findByIdAndUpdate(userId, {isActive:false})

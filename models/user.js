@@ -5,7 +5,7 @@ const userSchema= new mongoose.Schema({
     vendorId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'vendor',
-        default: null //null for customer 
+//null for customer 
     },
     storeId:{
         type:mongoose.Schema.Types.ObjectId,

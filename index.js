@@ -9,7 +9,7 @@ const {connectdb}= require('./config/connection')
 const {authenticateUser, authorizeAccess} =require('./middlewares/auth')
 const {checkApiKey} = require('./middlewares/apiKey')
 
-//portal Api's routes
+//portal Api's routers
 const authRouter= require('./routes/portal/auth')
 const vendorRouter= require('./routes/portal/vendor')
 const storeRouter= require('./routes/portal/store')
@@ -20,7 +20,7 @@ const variantRouter= require('./routes/portal/variant')
 const stockRouter= require('./routes/portal/stock')
 const orderRouter= require('./routes/portal/order')
 
-//storefront Api's routes
+//storefront Api's routers
 const orderRouterPublic= require('./routes/public/order')
 const productRouterPublic= require('./routes/public/product')
 //connection
@@ -42,7 +42,6 @@ app.use('/api/portal', authenticateUser, authorizeAccess(['vendor-admin', 'store
 app.use('/api', authRouter)
 app.use('/api',checkApiKey, authenticateUser, authorizeAccess(['customer']) ,orderRouterPublic)
 app.use('/api', checkApiKey, productRouterPublic)
-
 
 
 app.get("/", (req, res) => {
