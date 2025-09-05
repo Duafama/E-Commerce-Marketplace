@@ -13,8 +13,7 @@ async function handleGetAllStoresByVendor(req, res){
         return res.status(500).json({error: "failed to fetch stores"})
     }
 }
-
-
+ 
 //checkStoreAccess middleware added!
 async function handleGetStoreById(req, res){
     try { 

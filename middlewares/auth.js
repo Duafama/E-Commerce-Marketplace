@@ -13,17 +13,10 @@ async function authenticateUser(req, res, next){
     next()
 }
 
-function dashboardAuth(req, res, next) { 
-  if (!["vendor-admin", "store-manager", "inventory-manager"].includes(req.user.role)) {
-    return res.status(403).json({ error: "Dashboard access denied" });
-  }
-  next();
-}
 
 function authorizeAccess(roles= []){
     return function (req, res, next){
         if (!req.user) return res.json({error:"User not logged in"})
-        
         if(roles.length && !roles.includes(req.user.role))
              return res.json("Unauthorized Access")
 
@@ -32,4 +25,4 @@ function authorizeAccess(roles= []){
 }
 
 
-module.exports = {authenticateUser, authorizeAccess, dashboardAuth}
+module.exports = {authenticateUser, authorizeAccess}

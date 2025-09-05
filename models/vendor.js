@@ -8,7 +8,10 @@ const vendorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    contactEmail:{
+    businessEmail:{
+        type: String
+    },
+    stripeAccountId: {        
         type: String
     },
     createdAt:{

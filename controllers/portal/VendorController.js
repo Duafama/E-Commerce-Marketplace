@@ -1,5 +1,7 @@
-// Vendor Management 
+// Vendor profile Management 
 const Vendor= require('../../models/vendor')
+const {createVendorOnboardLink} = require('../../services/stripeService')
+
 
 async function handleGetAllVendors(req, res){  //only portal admin
     try{
@@ -9,11 +11,11 @@ async function handleGetAllVendors(req, res){  //only portal admin
         console.log(err)
         res.status(500).json({error: "failed to fetch all vendors"})
     }
-}
+}   
 
-async function handleGetVendorById(req, res){
+async function handleGetVendorProfile(req, res){
     try{
-        const vendor= await Vendor.findById(req.params.id)
+        const vendor= await Vendor.findById(req.user.vendorId)
         if (!vendor) return res.json({msg: "Vendor does not exist"})
         return res.json(vendor)
     }catch(err){
@@ -22,13 +24,25 @@ async function handleGetVendorById(req, res){
     }
 }
 
-async function handleUpdateVendorbyId(req, res){
-    try{
-        const {businessName, ownerName, contactEmail} =req.body 
-        if(req.user.role=== "vendor-admin" && req.user.vendorId !== req.params.id)
-            return res.json({error:"you can only update your own vendor info"})
+// app.get('/vendors/onboarding-link', authenticateUser, 
+async function handleVendorOnboard (req, res){
+  try {
+    const vendor = await Vendor.findById(req.user.vendorId);
+    if (!vendor) return res.status(404).json({ message: 'Vendor not found' });
 
-        const updatedVendor= await Vendor.findByIdAndUpdate(req.params.id, {businessName, ownerName, contactEmail}, { new: true, runValidators: true })
+    const accountLink = await createVendorOnboardLink(vendor.stripeAccountId)
+    res.json({ onboardingUrl: accountLink.url });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+async function handleUpdateVendorProfile(req, res){
+    try{
+        const {businessName, ownerName, businessEmail} =req.body 
+
+        const updatedVendor= await Vendor.findByIdAndUpdate(req.user.vendorId, {businessName, ownerName, businessEmail}, { new: true, runValidators: true })
         if(!updatedVendor) return res.json("vendor not found")
         return res.json(updatedVendor)
     }
@@ -38,18 +52,6 @@ async function handleUpdateVendorbyId(req, res){
     }
 }
    
-//long logic for hard delete, will try soft delete later where i'll add status do users and vendors and will update the status 
-async function handleDeleteVendorById(req, res){
-    try{
-        if(req.user.role === "vendor-admin" && req.user._id !== req.params.id)
-            return res.json({error:"you can only delete your own vendor info"})
-        const deletedVendor= await Vendor.findByIdAndDelete(req.params.id)
-        if(!deletedVendor) return res.json("vendor not found")
-       
-    }catch(err){
-        console.log(err)
-        res.status(500).json({error: "failed to delete vendor account"})
-    }
-}
 
-module.exports= {handleGetAllVendors, handleGetVendorById, handleUpdateVendorbyId}
+
+module.exports= {handleGetAllVendors, handleGetVendorProfile, handleUpdateVendorProfile, handleVendorOnboard}

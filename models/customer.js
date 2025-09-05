@@ -8,18 +8,23 @@ const customerSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    email:{
+        type:String,
+        required:true
+    },
     address:{
         type: String,
-        required:true
     },
     phoneNo:{
         type:Number,
-        required:true
     },
-    savedPaymentMethod:{
-        type: String,
-        enum: ['card'| 'paypal']
+    stripeCustomerId:{
+        type:String
+    },
+    savedPaymentMethodId:{
+        type: String, 
     }
+    
 })
 
 module.exports= mongoose.model('customer', customerSchema)

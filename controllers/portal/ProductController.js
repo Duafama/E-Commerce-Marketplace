@@ -60,4 +60,15 @@ async function handleUpdateProductById(req, res){
     }
 }
 
-module.exports= {handleCreateNewProduct, handleGetAllProductsByStore, handleGetProductById, handleUpdateProductById}
+async function handleDeleteProductById(req, res){
+    try{
+        const {productId}= req.param
+        await Product.findByIdAndUpdate(productId, {isActive:false})
+        return res.json({msg: "Product Deactivated"})
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({error: "Server Error"})
+    }
+}
+
+module.exports= {handleCreateNewProduct, handleGetAllProductsByStore, handleGetProductById, handleUpdateProductById, handleDeleteProductById}

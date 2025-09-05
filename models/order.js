@@ -29,14 +29,6 @@ const orderSchema= new mongoose.Schema({
         ref: 'user',
         required:true
     },
-    // customerName:{
-    //     type: String,
-    //     required:true
-    // },
-    // customerPhoneNo:{
-    //     type:Number,
-    //     required:true
-    // },
     vendorId:{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'vendor',
@@ -51,6 +43,14 @@ const orderSchema= new mongoose.Schema({
     totalAmount: {
          type: Number, 
          required: true 
+    },
+    paymentIntentId: {
+        type:String
+    },
+    paymentStatus: {   
+        type: String, 
+        enum: ['unpaid', 'paid', 'failed', 'refunded'], 
+        default: 'unpaid' 
     },
     status:{
         type: String, 

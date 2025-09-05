@@ -5,7 +5,6 @@ const userSchema= new mongoose.Schema({
     vendorId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'vendor',
-//null for customer 
     },
     storeId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -14,7 +13,7 @@ const userSchema= new mongoose.Schema({
     },
     email:{   
         type:String, 
-        unique: true,
+        // unique: true,
         required: true
     },
     password:{

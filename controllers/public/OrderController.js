@@ -3,6 +3,8 @@ const Product= require('../../models/product')
 const Variant = require('../../models/variant')
 const Customer= require('../../models/customer')
 const mongoose= require('mongoose')
+const { createPaymentIntent } = require('../../services/stripeService')
+const Vendor = require('../../models/vendor')
 
 //only customer is authorized to access this route handler function
 async function handleCreateNewOrder(req, res){
@@ -56,31 +58,40 @@ async function handleCreateNewOrder(req, res){
                 )
             }
             
-            const subtotal = Price*item.quantity // 
+            const subtotal = unitPrice*item.quantity // 
             totalAmount += subtotal
               
             finalItems.push({
                 productId: item.productId,
                 variantId: item.variantId,
                 quantity: item.quantity,
-                price: Price,
-                subtotal
+                price: unitPrice,
+                subtotal   
             })  
         }
         // WARNING: to pass a `session` to `Model.create()` in Mongoose, you **must** pass an array as the first argument.  
         // otherwise, order will be created outside the session
-        await Order.create([{
+        const orderArr = await Order.create([{
             customerId,
             vendorId,
             storeId,
             items: finalItems,
             totalAmount
-        }], {session})
+        }], {session})             
+    
+        const order= orderArr[0]
+        
+        const vendor= await Vendor.findById(vendorId)
+        const customer= await Customer.findOne({userId:customerId})
+        const paymentIntent= await createPaymentIntent(totalAmount, vendor.stripeAccountId, order._id.toString(), customer)
+                   
+        order.paymentIntentId= paymentIntent.id
+        await order.save({session})
 
         await session.commitTransaction()
-        res.status(201).json("Order Placed Successfully")
+        res.status(201).json({orderId: order._id, Client_secret: paymentIntent.client_secret})
         
-    }
+    } 
     catch(err){
         await session.abortTransaction()
         console.log(err)
